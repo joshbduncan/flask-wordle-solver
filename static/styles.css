@@ -1,0 +1,173 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+header {
+  text-align: center;
+}
+
+footer {
+  margin: 3em 0;
+  text-align: center;
+}
+
+section {
+  margin: 1em auto;
+  width: min(90%, 50rem);
+}
+
+/* ########## ELEMENT STYLING ########## */
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+button.reset,
+button.tooltip {
+  background-color: white;
+}
+
+button.update {
+  background-color: #6aaa64;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 2rem;
+  padding: 0.5rem 2rem;
+}
+
+h1 > a {
+  color: black;
+  text-decoration: none;
+}
+
+.title {
+  font-size: 125%;
+  font-weight: bold;
+}
+
+.text-align-center {
+  text-align: center !important;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+/* ########## INPUTS STYLING ########## */
+
+.inputs {
+  text-align: center;
+}
+
+.reset {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tiles {
+  display: grid;
+  flex-grow: 1;
+  gap: 0.25em;
+  grid-template-columns: repeat(5, 4em);
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.tile {
+  border: none;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  height: 2em;
+  line-height: 2em;
+  outline: none;
+  text-align: center;
+  text-transform: uppercase;
+  width: 2em;
+}
+
+.correct {
+  background-color: #6aaa64;
+}
+
+.valid {
+  background-color: #c9b457;
+}
+
+.invalid {
+  background-color: #787c7d;
+}
+
+.letters {
+  display: grid;
+  grid-gap: 1em 1em;
+  grid-template-columns: repeat(auto-fit, minmax(4em, 1fr));
+}
+
+.letter {
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.percentage {
+  font-size: 75%;
+  font-weight: normal;
+}
+
+.note {
+  font-size: 75%;
+}
+
+.words {
+  display: grid;
+  grid-gap: 0.5em 1em;
+  grid-template-columns: repeat(auto-fit, minmax(4em, 1fr));
+}
+
+.word {
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ########## INFO TOOLTIPS ########## */
+
+#info {
+  font-size: 1em;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+#info:hover .info-text {
+  visibility: visible;
+}
+
+.info-text {
+  background-color: black;
+  border-radius: 6px;
+  color: white;
+  padding: 1em;
+  position: absolute;
+  right: 100%;
+  text-align: center;
+  top: 100%;
+  visibility: hidden;
+  width: min(75vw, 36em);
+  z-index: 1;
+}

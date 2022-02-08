@@ -1,0 +1,16 @@
+<h2 class="text-align-center text-underline">Best Possible Letters</h2>
+<div class="letters">
+  {% for letter in cts %}
+  <div class="letter">
+    <div class="letter-tile">{{ letter | upper }}</div>
+    <div class="percentage">({{cts[letter] }}%)</div>
+  </div>
+  {% endfor %}
+</div>
+<p class="note text-align-center">% Percentage of possible words each letter appears in.</p>
+<h2 class="text-align-center text-underline">{{ words | length }} Possible Solutions</h2>
+<div class="words">
+  {% for word in words | sort %}
+  <div class="word">{{ word }}</div>
+  {% endfor %}
+</div>
