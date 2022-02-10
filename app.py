@@ -50,10 +50,10 @@ def index():
         valids = [v.lower() for k, v in data.items() if "v" in k]
         corrects = [v.lower() for k, v in data.items() if "c" in k]
         matches = find_matching_words(invalids, valids, corrects)
-        if matches:
-            cts = get_character_counts(matches, [*valids, *corrects])
-        else:
-            return '<h2 class="text-align-center">Sorry no matches!</h2>'
-        return render_template("words.html", words=matches, cts=cts)
+        cts = get_character_counts(matches, [*valids, *corrects])
+        print(cts)
+        return render_template(
+            "words.html", words=matches, cts=cts, valids=valids, corrects=corrects
+        )
     cts = get_character_counts(WORDS, [])
-    return render_template("index.html", words=WORDS, cts=cts)
+    return render_template("index.html", words=WORDS, cts=cts, valids=[], corrects=[])

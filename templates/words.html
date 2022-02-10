@@ -1,3 +1,4 @@
+{% if cts %}
 <h2 class="text-align-center text-underline">Best Possible Letters</h2>
 <div class="letters">
   {% for letter in cts %}
@@ -8,9 +9,18 @@
   {% endfor %}
 </div>
 <p class="note text-align-center">% Percentage of possible words each letter appears in.</p>
-<h2 class="text-align-center text-underline">{{ words | length }} Possible Solutions</h2>
+{% endif %}
+{% if words %}
+<h2 class="text-align-center text-underline">
+  {{ words | length }} Possible Solution{% if words | length > 1 %}s{% endif%}
+</h2>
 <div class="words">
   {% for word in words | sort %}
-  <div class="word">{{ word }}</div>
+  <div class="word">{% for c in word %}{% if c | lower in corrects %}<span class="corrects">{{c}}</span>{% elif c |
+    lower in valids %}<span class="valids">{{c}}</span>{% else %}{{c}}{%
+    endif %}{% endfor %}</div>
   {% endfor %}
 </div>
+{% else %}
+<h2 class="text-align-center">Sorry no matches!</h2>
+{% endif %}

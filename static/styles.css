@@ -2,6 +2,9 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+body {
   font-family: Arial;
 }
 
@@ -34,9 +37,11 @@ button {
   cursor: pointer;
 }
 
-button.reset,
-button.tooltip {
+button.reset {
   background-color: white;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
 }
 
 button.update {
@@ -70,12 +75,6 @@ h1 > a {
 /* ########## INPUTS STYLING ########## */
 
 .inputs {
-  text-align: center;
-}
-
-.reset {
-  cursor: pointer;
-  margin: 0 auto;
   text-align: center;
 }
 
@@ -115,12 +114,14 @@ h1 > a {
 
 .letters {
   display: grid;
-  grid-gap: 1em 1em;
+  font-family: monospace;
+  font-size: 125%;
+  font-weight: bold;
+  grid-gap: 0.5em 1em;
   grid-template-columns: repeat(auto-fit, minmax(4em, 1fr));
 }
 
 .letter {
-  font-weight: bold;
   text-align: center;
   text-transform: uppercase;
 }
@@ -136,14 +137,24 @@ h1 > a {
 
 .words {
   display: grid;
+  font-family: monospace;
+  font-size: 125%;
+  font-weight: bold;
   grid-gap: 0.5em 1em;
   grid-template-columns: repeat(auto-fit, minmax(4em, 1fr));
 }
 
 .word {
-  font-weight: bold;
   text-align: center;
   text-transform: uppercase;
+}
+
+span.corrects {
+  color: #6aaa64;
+}
+
+span.valids {
+  color: #c9b457;
 }
 
 /* ########## INFO TOOLTIPS ########## */
