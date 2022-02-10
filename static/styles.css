@@ -74,6 +74,7 @@ h1 > a {
 }
 
 .reset {
+  cursor: pointer;
   margin: 0 auto;
   text-align: center;
 }

@@ -9,9 +9,11 @@
   <meta name="description" content="Solving Wordle puzzles using Python, Flask, &lt;/&gt; htmx, and ///_hyperscript" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.svg') }}" />
-  <!-- htmx  and hyperscript-->
+  <!-- htmx  and hyperscript -->
   <script src="https://unpkg.com/htmx.org@1.6.1"></script>
   <script src="https://unpkg.com/hyperscript.org@0.9.4"></script>
+  <!-- auto tab between tiles -->
+  <script src="{{ url_for('static', filename='autoTab.js' ) }}"></script>
 </head>
 
 <body>
@@ -41,43 +43,43 @@
         </span>
         <span class="reset" _="on click set .correct.value to ''"> [Reset]</span>
         <div class="tiles">
-          <input class="tile correct" type="text" name="c0" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class=" tile correct" type="text" name="c1" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile correct" type="text" name="c2" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile correct" type="text" name="c3" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile correct" type="text" name="c4" maxlength="1" spellcheck="false" autocomplete="off">
+          <input class="tile correct" type="text" name="c0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile correct" type="text" name="c1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile correct" type="text" name="c2" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile correct" type="text" name="c3" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile correct" type="text" name="c4" maxlength="1" autocomplete="off" oninput="autoTab(this)">
         </div>
         <span class="title">
           Valid Letters
         </span>
         <span class="reset" _="on click set .valid.value to ''"> [Reset]</span>
         <div class="tiles">
-          <input class="tile valid" type="text" name="v0" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile valid" type="text" name="v1" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile valid" type="text" name="v2" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile valid" type="text" name="v3" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile valid" type="text" name="v4" maxlength="1" spellcheck="false" autocomplete="off">
+          <input class="tile valid" type="text" name="v0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile valid" type="text" name="v1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile valid" type="text" name="v2" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile valid" type="text" name="v3" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile valid" type="text" name="v4" maxlength="1" autocomplete="off" oninput="autoTab(this)">
         </div>
         <span class="title">
           Invalid Letters
         </span>
         <span class="reset" _="on click set .invalid.value to ''"> [Reset]</span>
         <div class="tiles">
-          <input class="tile invalid" type="text" name="i0" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i1" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i2" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i3" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i4" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i5" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i6" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i7" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i8" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i9" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i10" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i11" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i12" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i13" maxlength="1" spellcheck="false" autocomplete="off">
-          <input class="tile invalid" type="text" name="i14" maxlength="1" spellcheck="false" autocomplete="off">
+          <input class="tile invalid" type="text" name="i0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i2" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i3" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i4" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i5" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i6" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i7" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i8" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i9" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i10" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i11" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i12" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i13" maxlength="1" autocomplete="off" oninput="autoTab(this)">
+          <input class="tile invalid" type="text" name="i14" maxlength="1" autocomplete="off" oninput="autoTab(this)">
         </div>
         <div class="update text-align-center">
           <button class="update" type="submit">Update Possible Words</button>
