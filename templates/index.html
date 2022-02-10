@@ -6,14 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wordle Solver</title>
-  <meta name="description" content="Solving Wordle puzzles using Python, Flask, &lt;/&gt; htmx, and ///_hyperscript" />
+  <meta name="description" content="Solving Wordle puzzles using Python, Flask, and &lt;/&gt; htmx" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.svg') }}" />
-  <!-- htmx  and hyperscript -->
+  <!-- htmx goodness -->
   <script src="https://unpkg.com/htmx.org@1.6.1"></script>
-  <script src="https://unpkg.com/hyperscript.org@0.9.4"></script>
   <!-- auto tab between tiles -->
-  <script src="{{ url_for('static', filename='autoTab.js' ) }}"></script>
+  <script src="{{ url_for('static', filename='wordleSolver.js' ) }}"></script>
 </head>
 
 <body>
@@ -36,12 +35,13 @@
   </header>
 
   <section class="wordle-solver">
-    <form name="wordleSolver" hx-post="{{ url_for('index')}}" hx-target="#replaceMe">
+    <form name="wordleSolver" hx-post="{{ url_for('index')}}" hx-target="#replaceMe" onchange="clickMe('on')"
+      onsubmit="clickMe('off')">
       <div class="inputs">
         <span class="title">
           Correct Letters
         </span>
-        <button class="reset" _="on click set .correct.value to ''"> [Reset]</button>
+        <span class="reset" onclick="resetTiles(this, 'correct')"> [Reset]</span>
         <div class="tiles">
           <input class="tile correct" type="text" name="c0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
           <input class="tile correct" type="text" name="c1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
@@ -52,7 +52,7 @@
         <span class="title">
           Valid Letters
         </span>
-        <button class="reset" _="on click set .valid.value to ''"> [Reset]</button>
+        <span class="reset" onclick="resetTiles(this, 'valid')"> [Reset]</span>
         <div class="tiles">
           <input class="tile valid" type="text" name="v0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
           <input class="tile valid" type="text" name="v1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
@@ -63,7 +63,7 @@
         <span class="title">
           Invalid Letters
         </span>
-        <button class="reset" _="on click set .invalid.value to ''"> [Reset]</button>
+        <span class="reset" onclick="resetTiles(this, 'invalid')"> [Reset]</span>
         <div class="tiles">
           <input class="tile invalid" type="text" name="i0" maxlength="1" autocomplete="off" oninput="autoTab(this)">
           <input class="tile invalid" type="text" name="i1" maxlength="1" autocomplete="off" oninput="autoTab(this)">
@@ -82,7 +82,7 @@
           <input class="tile invalid" type="text" name="i14" maxlength="1" autocomplete="off" oninput="autoTab(this)">
         </div>
         <div class="update text-align-center">
-          <button class="update" type="submit">Update Possible Words</button>
+          <button id="updateButton" class="update" type="submit">Update Possible Words</button>
         </div>
       </div>
     </form>
@@ -94,8 +94,8 @@
 
   <footer class="text-align-center">
     <p>⚙️ Powered by 🐍 <a href="https://www.python.org/">Python</a>, <a
-        href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a>, <a href="https://htmx.org/">&lt;/&gt; htmx</a>,
-      and <a href="https://hyperscript.org/">///_hyperscript</a>.</p>
+        href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a>, and <a href="https://htmx.org/">&lt;/&gt;
+        htmx</a>.</p>
     <p>&copy; 2022 <a href="https://github.com/joshbduncan">Josh Duncan</a></p>
   </footer>
 

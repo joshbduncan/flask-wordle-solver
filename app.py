@@ -1,3 +1,4 @@
+import itertools
 import os
 import re
 
@@ -23,8 +24,14 @@ def find_matching_words(invalids, valids, corrects):
     reduced2 = list(filter(re2.match, reduced1))
     # parse correctly placed letters and reduce possibilities
     correct_chrs = [c if c.isalpha() else "." for c in corrects]
+    # make sure to account for valid letters in the wrong place
+    # as this help to greatly reduce the possibile correct words
+    # the valid characters need to be input in their last played postion
     correct_str = "".join(
-        [f"[^{v}]" if v and c == "." else c for v, c in zip(valid_chrs, correct_chrs)]
+        [
+            f"[^{v}]" if v and c == "." else c
+            for v, c in itertools.zip_longest(valid_chrs, correct_chrs)
+        ]
     )
     re3 = re.compile(rf"{correct_str}")
     reduced3 = list(filter(re3.match, reduced2))
@@ -46,12 +53,18 @@ def index():
     if request.headers.get("HX-Request"):
         data = request.form
         # parse provided characters
-        invalids = [v.lower() for k, v in data.items() if "i" in k]
-        valids = [v.lower() for k, v in data.items() if "v" in k]
         corrects = [v.lower() for k, v in data.items() if "c" in k]
+        # ignore any characters already successfully placed
+        valids = [v.lower() for k, v in data.items() if "v" in k]
+        invalids = set(
+            [
+                v.lower()
+                for k, v in data.items()
+                if "i" in k and v.lower() not in corrects + valids
+            ]
+        )
         matches = find_matching_words(invalids, valids, corrects)
         cts = get_character_counts(matches, [*valids, *corrects])
-        print(cts)
         return render_template(
             "words.html", words=matches, cts=cts, valids=valids, corrects=corrects
         )
