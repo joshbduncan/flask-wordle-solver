@@ -1,6 +1,7 @@
+const updateButton = document.getElementById("updateButton");
+
 // update button color on form change
 function clickMe(action) {
-  let updateButton = document.getElementById("updateButton");
   if (action == "on") {
     updateButton.classList.add("click-me");
   } else {

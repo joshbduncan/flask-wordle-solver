@@ -24,6 +24,7 @@ def find_matching_words(invalids, valids, corrects):
     reduced2 = list(filter(re2.match, reduced1))
     # parse correctly placed letters and reduce possibilities
     correct_chrs = [c if c.isalpha() else "." for c in corrects]
+    print(correct_chrs)
     # make sure to account for valid letters in the wrong place
     # as this help to greatly reduce the possibile correct words
     # the valid characters need to be input in their last played postion
@@ -35,6 +36,12 @@ def find_matching_words(invalids, valids, corrects):
     )
     re3 = re.compile(rf"{correct_str}")
     reduced3 = list(filter(re3.match, reduced2))
+    print(reduced3)
+    # check to see if any characters are present more
+    # than once and alread have one valid placement
+    multiples = [c for c in correct_chrs if c in valid_chrs]
+    if multiples:
+        return [w for c in multiples for w in reduced3 if w.count(c) > 1]
     return reduced3
 
 

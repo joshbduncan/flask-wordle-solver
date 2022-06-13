@@ -12,7 +12,7 @@
   <!-- htmx goodness -->
   <script src="https://unpkg.com/htmx.org@1.6.1"></script>
   <!-- auto tab between tiles -->
-  <script src="{{ url_for('static', filename='wordleSolver.js' ) }}"></script>
+  <script src="{{ url_for('static', filename='wordleSolver.js' ) }}" defer></script>
 </head>
 
 <body>
@@ -35,7 +35,7 @@
   </header>
 
   <section class="wordle-solver">
-    <form name="wordleSolver" hx-post="{{ url_for('index')}}" hx-target="#replaceMe" onchange="clickMe('on')"
+    <form id="form" name="wordleSolver" hx-post="{{ url_for('index')}}" hx-target="#replaceMe" onchange="clickMe('on')"
       onsubmit="clickMe('off')">
       <div class="inputs">
         <span class="title">
