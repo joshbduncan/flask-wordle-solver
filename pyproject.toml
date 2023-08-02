@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flask-wordle-solver"
+authors = [
+    {name = "Josh Duncan", email = "joshbduncan@gmail.com"},
+]
+description = "Solving Wordle puzzles using 🐍 Python, Flask, and </> htmx."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["puzzles", "games", "wordle", "flask"]
+license = {text = "MIT License"}
+classifiers = [
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
+]
+dependencies = [
+    "Flask==2.0.2",
+    "python-dotenv==0.19.2",
+]
+version = "0.2.0"
+
+[project.urls]
+homepage = "https://github.com/joshbduncan/flask-wordle-solver"
+repository = "https://github.com/joshbduncan/flask-wordle-solver.git"
+bug-tracker = "https://github.com/joshbduncan/flask-wordle-solver/issues"
+
+# TOOL CONFIGURATION
+
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+implicit_reexport = true
+
+[tool.ruff]
+exclude = [".venv"]
+extend-select = ["C4", "I", "SIM", "TCH"]
+fixable = ["B", "I"]
+format = "grouped"
+line-length = 88
+show-fixes = true
+target-version = "py310"

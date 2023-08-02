@@ -16,7 +16,8 @@
 </h2>
 <div class="words">
   {% for word in words | sort %}
-  <div class="word">{% for c in word %}{% if c | lower in corrects %}<span class="corrects">{{c}}</span>{% elif c |
+  <div class="word">{% for c in word %}{% if c | lower in corrects[loop.index0] | lower %}<span
+      class="corrects">{{c}}</span>{% elif c |
     lower in valids %}<span class="valids">{{c}}</span>{% else %}{{c}}{%
     endif %}{% endfor %}</div>
   {% endfor %}

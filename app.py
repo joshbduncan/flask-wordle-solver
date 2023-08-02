@@ -1,6 +1,7 @@
-import itertools
 import os
 import re
+from collections import Counter
+from typing import Any
 
 from flask import Flask, render_template, request
 
@@ -8,69 +9,93 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # load all valid wordle words
-WORDS = open("words.txt", "r").read().splitlines()
+with open("words.txt") as f:
+    WORDS: list[str] = f.read().splitlines()
 
 
-def find_matching_words(invalids, valids, corrects):
+def find_matching_words(
+    corrects: list[str], valids: list[str], invalids: list[str]
+) -> list[str]:
+    """Find all words matching the current correct, valid, and invalid characters.
+
+    Args:
+        corrects (set[str]): Known correct characters.
+        valids (set[str]): Known valid characters (in solution but wrong placement).
+        invalids (set[str]): Known invalid characters.
+
+    Returns:
+        list[str]: Possible solution words at current puzzle state.
+    """
     # parse invalid letters and reduce possibilities
-    invalid_chrs = [i if i.isalpha() else "" for i in invalids]
-    invalid_str = f"(?!.*[{''.join(invalid_chrs)}])" if "".join(invalid_chrs) else ""
-    re1 = re.compile(rf"^{invalid_str}[a-z]{{5}}$")
-    reduced1 = list(filter(re1.match, WORDS))
+    invalid_str = f"(?!.*[{''.join(invalids)}])" if invalids else ""
+    regex = re.compile(rf"^{invalid_str}[a-z]{{5}}$")
+    possible_words = list(filter(regex.match, WORDS))
     # parse valid letters and reduce possibilities
-    valid_chrs = [v if v.isalpha() else "" for v in valids]
-    valid_str = "".join([f"(?=.*[{v}])" for v in valid_chrs if v])
-    re2 = re.compile(rf"^{valid_str}[a-z]{{5}}$")
-    reduced2 = list(filter(re2.match, reduced1))
+    valid_str = "".join([f"(?=.*[{v}])" for v in valids if v]) if valids else ""
+    regex = re.compile(rf"^{valid_str}[a-z]{{5}}$")
+    possible_words = list(filter(regex.match, possible_words))
     # parse correctly placed letters and reduce possibilities
-    correct_chrs = [c if c.isalpha() else "." for c in corrects]
-    print(correct_chrs)
-    # make sure to account for valid letters in the wrong place
-    # as this help to greatly reduce the possibile correct words
-    # the valid characters need to be input in their last played postion
+    corrects_with_dots = (c if c else "." for c in corrects)
     correct_str = "".join(
-        [
-            f"[^{v}]" if v and c == "." else c
-            for v, c in itertools.zip_longest(valid_chrs, correct_chrs)
-        ]
+        [f"[^{v}]" if v and c == "." else c for v, c in zip(valids, corrects_with_dots)]
     )
-    re3 = re.compile(rf"{correct_str}")
-    reduced3 = list(filter(re3.match, reduced2))
-    print(reduced3)
+    regex = re.compile(rf"{correct_str}")
+    possible_words = list(filter(regex.match, possible_words))
     # check to see if any characters are present more
-    # than once and alread have one valid placement
-    multiples = [c for c in correct_chrs if c in valid_chrs]
+    # than once and already have one valid placement
+    multiples = [c for c in corrects_with_dots if c in valids]
     if multiples:
-        return [w for c in multiples for w in reduced3 if w.count(c) > 1]
-    return reduced3
+        return [w for c in multiples for w in possible_words if w.count(c) >= 1]
+    return possible_words
 
 
-def get_character_counts(matches, valid_chrs):
-    matches_chrs = "".join(["".join(list(set(w))) for w in matches])
-    ct = {}
-    for c in "abcdefghijklmnopqrstuvwxyz":
-        if c not in valid_chrs:
-            if matches_chrs.count(c):
-                ct[c] = round((matches_chrs.count(c) / len(matches)) * 100, 2)
-    return dict(sorted(ct.items(), key=lambda item: item[1], reverse=True))
+def get_character_counts(
+    matches: list[str], played_chrs: list[str]
+) -> dict[str, float]:
+    """Get percentage of matching words each unplayed character is found in.
+
+    Args:
+        matches (list[str]): Possible solution words.
+        played_chrs (list[str]): Known characters to ignore.
+
+    Returns:
+        dict[str, float]: Unplayed character and percentage of times it is found
+        in possible solution words.
+    """
+    character_counts = Counter(list("".join("".join(set(w)) for w in matches)))
+    character_percentages = {
+        c: round((ct / len(matches)) * 100, 2)
+        for c, ct in character_counts.items()
+        if c not in played_chrs
+    }
+    return dict(
+        sorted(
+            character_percentages.items(),
+            key=lambda item: (item[1], item[0]),
+            reverse=True,
+        )
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
+def index() -> Any | str:
+    """Base for single-page app."""
     if request.headers.get("HX-Request"):
         data = request.form
+        corrects = []
+        valids = []
+        invalids = []
         # parse provided characters
-        corrects = [v.lower() for k, v in data.items() if "c" in k]
-        # ignore any characters already successfully placed
-        valids = [v.lower() for k, v in data.items() if "v" in k]
-        invalids = set(
-            [
-                v.lower()
-                for k, v in data.items()
-                if "i" in k and v.lower() not in corrects + valids
-            ]
-        )
-        matches = find_matching_words(invalids, valids, corrects)
+        for k, v in data.items():
+            if not v.isalpha():
+                v = ""
+            if "c" in k:
+                corrects.append(v.lower())
+            elif "v" in k:
+                valids.append(v.lower())
+            else:
+                invalids.append(v.lower())
+        matches = find_matching_words(corrects, valids, invalids)
         cts = get_character_counts(matches, [*valids, *corrects])
         return render_template(
             "words.html", words=matches, cts=cts, valids=valids, corrects=corrects
