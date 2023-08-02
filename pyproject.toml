@@ -38,8 +38,7 @@ repository = "https://github.com/joshbduncan/flask-wordle-solver.git"
 bug-tracker = "https://github.com/joshbduncan/flask-wordle-solver/issues"
 
 [tool.setuptools.packages.find]
-where = ["src"]
-include = ["wordle_solver"]
+include = ["flask_wordle_solver"]
 
 # TOOL CONFIGURATION
 
@@ -59,7 +58,7 @@ exclude = '''
 profile = "black"
 
 [tool.mypy]
-mypy_path = "src"
+mypy_path = "flask_wordle_solver"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
@@ -79,5 +78,5 @@ fixable = ["B", "I"]
 format = "grouped"
 line-length = 88
 show-fixes = true
-src = ["src"]
+src = ["flask_wordle_solver"]
 target-version = "py310"

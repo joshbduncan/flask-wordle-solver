@@ -16,14 +16,14 @@ venv: requirements.txt  ## build a virtual environment for development
 ##@ Development
 cleanup: lint typing ## format, lint, and type check
 	@echo "📝 cleanup..."
-	$(BIN)/isort src
-	$(BIN)/black src
+	$(BIN)/isort app.py flask_wordle_solver
+	$(BIN)/black app.py flask_wordle_solver
 
 lint: ## lint the app using flake8 and ruff
 	@echo "📝 linting..."
-	$(BIN)/flake8 src
-	$(BIN)/ruff src
+	$(BIN)/flake8 app.py flask_wordle_solver
+	$(BIN)/ruff app.py flask_wordle_solver
 
 typing: ## type check the app using mypy
 	@echo "📝 type checking..."
-	$(BIN)/mypy src
+	$(BIN)/mypy app.py flask_wordle_solver
